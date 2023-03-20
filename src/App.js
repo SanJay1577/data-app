@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import './App.css';
 import { AddUser } from './Components/AddUser';
+import Dashboard from './Components/Dashboard';
 import EditUser from './Components/EditUser';
 import { Nopage } from './Components/NoPage';
 import UserComponent from './Components/UserComponent';
@@ -39,6 +40,12 @@ const [user, setUser] = useState(data)
         <Route path="/user/:id">
            <UserDetails user={user}/>
         </Route>
+
+        
+        <Route path="/dashboard">
+           <Dashboard/>
+        </Route>
+
 
         <Route path="/students">
              <Redirect path= "/"/>
