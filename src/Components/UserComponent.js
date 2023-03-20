@@ -25,15 +25,22 @@ const history = useHistory();
                     <p>Exp : {person.experience}</p>
 
                     <div className="btn-group">
-                        <button className="btn edit-btn">Edit</button>
+
+                        <button 
+                        onClick={()=>history.push(`/edit/${person.id}`)}
+                        className="btn edit-btn">
+                          Edit</button>
+
                         <button 
                         className="btn view-btn"
                         onClick={()=>history.push(`/user/${idx}`)}
                         >View</button>
+
                         <button 
                         className="btn del-btn"
                         onClick={()=>deleteUser(person.id)}
                         >Delete</button>
+                        
                     </div>
 
                 </div>
