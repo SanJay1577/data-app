@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { useHistory, useParams } from 'react-router-dom';
+import { AppState } from '../Context/AppProvider';
 import BaseApp from '../Core/Base';
 
-const EditUser = ({user, setUser}) => {
+const EditUser = () => {
+  const {user, setUser} = AppState();
     const [name, setName] = useState("");
     const [idx, setIdx] = useState("");
     const [email, setEmail] = useState("");

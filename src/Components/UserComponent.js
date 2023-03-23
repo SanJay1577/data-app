@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import { useHistory } from "react-router-dom";
-import BaseApp from "../Core/Base";
+import { AppState } from "../Context/AppProvider";
+import BaseApp  from "../Core/Base";
 
 
 
-export default function UserComponent({user, setUser}){
-const history = useHistory();
-
+export default function UserComponent(){
+  const {user, setUser} = AppState();
+    const history = useHistory();
    //functionality 
    const deleteUser = (idx)=>{
     const alterList = user.filter((per)=>per.id !== idx);
@@ -17,7 +18,9 @@ const history = useHistory();
         <BaseApp
         title= "User Details">
           <div className="user-content">
-             {user.map((person, idx)=>(
+             {
+             user && (
+             user?.map((person, idx)=>(
                 <div key ={idx} className="user-card">
                     <h1>{person.name}</h1>
                     <p>Batch : {person.batch}</p>
@@ -44,7 +47,8 @@ const history = useHistory();
                     </div>
 
                 </div>
-             ))}
+             )
+              ))}
           </div>
         </BaseApp>
     )
