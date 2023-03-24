@@ -57,10 +57,10 @@ function App() {
 export default App;
 
 //CRUD --
-//Create - done
-//Read - done 
-//update - done
-//delete - done
+//Create - done (POST) - done
+//Read - done    (GET) - done
+//update - done   (PUT) - done
+//delete - done    (Delete) - done
 // router dom - done
 
 //context - cerate a context 

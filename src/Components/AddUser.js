@@ -4,16 +4,16 @@ import { AppState } from "../Context/AppProvider";
 import BaseApp from "../Core/Base";
 
 export function AddUser(){
-    const {user, setUser} = AppState();
+    const { dispatch} = AppState();
     const history = useHistory()
     //defining states
     const [name, setName] = useState("");
     const [id, setId] = useState("");
     const [email, setEmail] = useState("");
-    const [experience, setExperience] = useState();
+    const [experience, setExperience] = useState("");
     const [batch, setBatch]= useState("");
 
-    const addNewUser = ()=>{
+    const addNewUser = async(e)=>{
         const newUser = {
             id,
             name,
@@ -21,9 +21,23 @@ export function AddUser(){
             batch,
             experience
         }
-        console.log(newUser)
-        setUser([...user, newUser])
+       e.preventDefault();
+       try {
+        const resposne = await fetch("https://6410036ae1212d9cc926f1fd.mockapi.io/users", {
+            method:"POST",
+            body : JSON.stringify(newUser),
+            headers :{
+                "Content-Type":"application/json",
+            },
+        }); 
+        const data = await resposne.json();
+        console.log(data)
+        //setUser([...user, data])
+        dispatch({type:"add-user", payload:data})
         history.push("/")
+       } catch (error) {
+        console.log(error)
+       }
     } 
     
     return (

@@ -6,12 +6,25 @@ import BaseApp  from "../Core/Base";
 
 
 export default function UserComponent(){
-  const {user, setUser} = AppState();
+  const {state, dispatch} = AppState();
     const history = useHistory();
    //functionality 
-   const deleteUser = (idx)=>{
-    const alterList = user.filter((per)=>per.id !== idx);
-     setUser(alterList)
+   const deleteUser = async (idx)=>{
+    try {
+       
+      const response = await fetch(`https://6410036ae1212d9cc926f1fd.mockapi.io/users/${idx}`,{
+        method: "Delete"
+      })
+      const data = await response.json();
+      console.log("after deletedata", data)
+      const alterList = state.user.filter((per)=>per.id !== idx);
+        dispatch({type:"delete-user", payload:alterList})
+      if(!data){
+        console.log("cound't'delete data")
+      }
+    } catch (error) {
+       console.log(error)
+    }
    }
   
     return (
@@ -19,8 +32,8 @@ export default function UserComponent(){
         title= "User Details">
           <div className="user-content">
              {
-             user && (
-             user?.map((person, idx)=>(
+             state.user && (
+             state.user?.map((person, idx)=>(
                 <div key ={idx} className="user-card">
                     <h1>{person.name}</h1>
                     <p>Batch : {person.batch}</p>

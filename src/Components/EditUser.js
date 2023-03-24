@@ -4,17 +4,17 @@ import { AppState } from '../Context/AppProvider';
 import BaseApp from '../Core/Base';
 
 const EditUser = () => {
-  const {user, setUser} = AppState();
+  const {state, dispatch} = AppState();
     const [name, setName] = useState("");
     const [idx, setIdx] = useState("");
     const [email, setEmail] = useState("");
-    const [experience, setExperience] = useState();
+    const [experience, setExperience] = useState("");
     const [batch, setBatch]= useState("");
 
   const {id} = useParams();
   const history = useHistory()
 
-  const selectedUser = user.find((per)=>per.id === id); 
+  const selectedUser = state.user.find((per)=>per.id === id); 
 
   useEffect(() => {
      setIdx(selectedUser.id)
@@ -26,22 +26,36 @@ const EditUser = () => {
   }, []);
 
 //
-  const updateUser = ()=>{
-  // step 1 : collecting new data
-   const editIndex = user.findIndex(per => per.id === id)
-   console.log(editIndex)
-    //chnaged data in the input field
-    const editedData = {
-        id :idx, 
-        name, 
-        email, 
-        experience, 
-        batch
-    }
-    //updating the user
-     user[editIndex] = editedData
-     setUser([...user]); 
-     history.push("/");
+  const updateUser = async ()=>{
+      // step 1 : collecting new data
+   const editIndex = state.user.findIndex(per => per.id === id)
+   //chnaged data in the input field
+   const editedData = {
+       id :idx, 
+       name, 
+       email, 
+       experience, 
+       batch
+   }
+   try {
+    const response = await fetch(`https://6410036ae1212d9cc926f1fd.mockapi.io/users/${idx}`, {
+      method :"PUT",
+      body : JSON.stringify(editedData),
+      headers:{
+        "Content-Type":"application/json"
+      }
+    });
+    const data = await response.json();
+    console.log(data)
+        //updating the user
+        state.user[editIndex] = data
+        //setUser([...state.user]); 
+        dispatch({type:"edit-user"})
+        history.push("/");
+
+   } catch (error) {
+    console.log(error)
+   }
   }
 
   return (
