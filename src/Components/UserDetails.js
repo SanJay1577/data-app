@@ -4,9 +4,9 @@ import { AppState } from "../Context/AppProvider";
 import BaseApp from "../Core/Base";
 
 export function UserDetails(){
-    const {user} = AppState();
+    const {state} = AppState();
     const {id} = useParams();
-    const person = user[id];
+    const person = state.user[id];
     return (
         <BaseApp
         title = {"User details"}
